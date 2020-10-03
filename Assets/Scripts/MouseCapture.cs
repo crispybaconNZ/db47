@@ -8,11 +8,14 @@ public class MouseCapture : MonoBehaviour {
     [SerializeField] private Camera _camera;
     [SerializeField] private float _interactionDistance; // player must at least this close to interact with something
     [SerializeField] private Player _player;
+    private UIManager _uiManager;
 
     private void Start() {
         if (_player == null) {
             _player = GameObject.FindObjectOfType<Player>();
-        }        
+        }
+
+        _uiManager = GameObject.FindObjectOfType<UIManager>();
     }
     void Update() {
         Ray ray;
@@ -28,7 +31,7 @@ public class MouseCapture : MonoBehaviour {
                 } else if (hit.collider.GetComponentsInChildren<Interactive>().Length > 0) {
                     // there's an interact in here....
                     Interactive child = hit.collider.GetComponentsInChildren<Interactive>()[0];
-                    Debug.Log($"{_player.name} interacting with {child.name}");
+                    _uiManager.ShowMessage($"{_player.name} interacting with {child.name}");
 
                     float distance = Vector3.Distance(transform.position, hit.point);
                     if (distance <= _interactionDistance) {                        
@@ -38,7 +41,7 @@ public class MouseCapture : MonoBehaviour {
                     }
                 } else if (hit.collider.tag == "Player") {
                     Player player = hit.collider.gameObject.GetComponent<Player>();
-                    Debug.Log($"Player carrying {player.CurrentWood} wood");
+                    _uiManager.ShowMessage($"Player carrying {player.CurrentWood} wood");
                     
                 } else {
                     // Debug.Log("Not an interactive");

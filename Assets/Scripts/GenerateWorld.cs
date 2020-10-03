@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class GenerateWorld : MonoBehaviour
 {
-    [SerializeField] private int numTrees = 20;
+    [SerializeField] private int numTrees = 200;
     [SerializeField] private GameObject _treePrefab;
 
     private List<GameObject> _trees;
@@ -18,7 +18,7 @@ public class GenerateWorld : MonoBehaviour
             _trees = new List<GameObject>(numTrees);
 
             for (int index = 0; index < numTrees; index++) {
-                Vector3 pos = new Vector3(Random.Range(-50f, 50f), 0f, Random.Range(-50f, 50f));
+                Vector3 pos = new Vector3(Random.Range(400f, 600f), 0f, Random.Range(200f, 300f));
                 GameObject newTree = Instantiate(_treePrefab, pos, Quaternion.identity);
                 newTree.transform.SetParent(treeParent);
             }
