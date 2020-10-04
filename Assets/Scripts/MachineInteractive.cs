@@ -12,6 +12,7 @@ public class MachineInteractive : Interactive {
     [SerializeField] private float _satiationDegradationRate = 1;
 
     private int _totalWoodReceived = 0;
+    private int _totalStoneReceived = 0;
     private UIManager _uiManager;
     [SerializeField] private float machineSatiation;
     private bool _warningGiven = false;
@@ -24,10 +25,13 @@ public class MachineInteractive : Interactive {
     public override void interact(Player player) {
         if (player.CurrentWood > 0) {
             _totalWoodReceived += player.CurrentWood;
-            machineSatiation += player.CurrentWood;
+            _totalStoneReceived += player.CurrentStone;
+            machineSatiation += player.CurrentWood + player.CurrentStone;
             _uiManager.UpdateNeedle(machineSatiation);
-            _uiManager.ShowMessage($"Feeding {player.CurrentWood} to the machine! Fed {_totalWoodReceived} to the machine so far!");
+            _uiManager.ShowMessage($"Feeding {player.CurrentWood} wood and {player.CurrentStone} stone to the machine!");
+            _uiManager.ShowMessage($"Fed {_totalWoodReceived} wood and {_totalStoneReceived} stone to the machine so far!");
             player.CurrentWood = 0;
+            player.CurrentStone = 0;
         }
     }
 

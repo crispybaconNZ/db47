@@ -34,9 +34,9 @@ public class MouseCapture : MonoBehaviour {
                     float distance = Vector3.Distance(transform.position, hit.point);
                     if (distance <= _interactionDistance) {                        
                         child.interact(_player);
-                        Debug.Log($"{_player.name} is interacting with {child.name} and distance {distance}");
+                        // Debug.Log($"{_player.name} is interacting with {child.name} and distance {distance}");
                     } else {
-                        Debug.Log($"Too far away to interact with {child.name} ({distance})");
+                        // Debug.Log($"Too far away to interact with {child.name} ({distance})");
                     }
                 } else if (hit.collider.tag == "Player") {
                     Player player = hit.collider.gameObject.GetComponent<Player>();
