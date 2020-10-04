@@ -9,6 +9,8 @@ public class UIManager : MonoBehaviour {
     [SerializeField] private Text _carryText;
     [SerializeField] private GameObject _messagePanel;
     [SerializeField] private Text _messageText;
+    [SerializeField] private GameObject _machineDemandPanel;
+    [SerializeField] private Text _machineDemandText;
     private float time_to_live = 0f;
     [SerializeField] private float _messageDisplayTime = 5f; // seconds
     [SerializeField] private Needle _needle;
@@ -16,9 +18,16 @@ public class UIManager : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
+        if (_messagePanel == null) { _messagePanel = GameObject.Find("MessagePanel"); }
+        if (_messageText == null) { _messageText = GameObject.Find("MessageText").GetComponent<Text>(); }
+        if (_needle == null) { _needle = GameObject.Find("Needle").GetComponent<Needle>(); }
+        if (_carryText == null) { _carryText = GameObject.Find("CarryingText").GetComponent<Text>(); }
+        if (_machineDemandPanel == null) { _machineDemandPanel = GameObject.Find("MachineDemand"); }
+        if (_machineDemandText == null) { _machineDemandText = GameObject.Find("MachineDemandText").GetComponent<Text>(); }
+
         _carryText.text = "Carrying: nothing";
         _messagePanel.SetActive(false);
-        if (_needle == null) { _needle = GameObject.Find("Needle").GetComponent<Needle>(); }
+        
         _messages = new Queue<string>();
     }
 
@@ -53,4 +62,15 @@ public class UIManager : MonoBehaviour {
         percent = Mathf.Clamp(percent, 0f, 100f);
         _needle.SetTargetPercent(percent);
     }
+
+    public void UpdateCarryMessage(Player player) {
+        CarryText = $"Carrying: {player.CurrentWood} wood; {player.CurrentStone} stone";
+    }
+
+    public void SetMachineDemandText(string text) {
+        _machineDemandText.text = text;
+        _machineDemandPanel.SetActive(true);
+    }
+
+    public void HideMachineDemand() => _machineDemandPanel.SetActive(false);
 }

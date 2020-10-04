@@ -6,16 +6,13 @@ using UnityEngine.UIElements;
 public class MouseCapture : MonoBehaviour {
     [SerializeField] private GameObject _markerPrefab;
     [SerializeField] private Camera _camera;
-    [SerializeField] private float _interactionDistance; // player must at least this close to interact with something
+    [SerializeField] private float _interactionDistance = 10f; // player must at least this close to interact with something
     [SerializeField] private Player _player;
-    private UIManager _uiManager;
 
     private void Start() {
-        if (_player == null) {
-            _player = GameObject.FindObjectOfType<Player>();
-        }
-
-        _uiManager = GameObject.FindObjectOfType<UIManager>();
+        if (_player == null) { _player = GameObject.FindObjectOfType<Player>(); }
+        if (_markerPrefab == null) { _markerPrefab = null;  }
+        if (_camera == null) { _camera = Camera.main; }
     }
     void Update() {
         Ray ray;
@@ -29,9 +26,8 @@ public class MouseCapture : MonoBehaviour {
                 } else if (hit.collider.GetComponentsInChildren<Interactive>().Length > 0) {
                     // there's an interact in here....
                     Interactive child = hit.collider.GetComponentsInChildren<Interactive>()[0];
-                    // _uiManager.ShowMessage($"{_player.name} interacting with {child.name}");
-
                     float distance = Vector3.Distance(transform.position, hit.point);
+
                     if (distance <= _interactionDistance) {                        
                         child.interact(_player);
                         // Debug.Log($"{_player.name} is interacting with {child.name} and distance {distance}");
@@ -39,7 +35,7 @@ public class MouseCapture : MonoBehaviour {
                         // Debug.Log($"Too far away to interact with {child.name} ({distance})");
                     }
                 } else if (hit.collider.tag == "Player") {
-                    Player player = hit.collider.gameObject.GetComponent<Player>();
+                    // Player player = hit.collider.gameObject.GetComponent<Player>();
                 } else {
                     // Debug.Log("Not an interactive");
                 }

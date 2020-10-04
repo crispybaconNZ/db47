@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 public class Needle : MonoBehaviour {
-    [SerializeField] private float _needleRotSpeed = 0.05f;
+    // [SerializeField] private float _needleRotSpeed = 0.05f;
     private float _currentPercent = 74f;
     [SerializeField] private float _targetPercent = 74f;
     private Transform _needle;

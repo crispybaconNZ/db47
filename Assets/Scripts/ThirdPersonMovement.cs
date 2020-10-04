@@ -10,6 +10,11 @@ public class ThirdPersonMovement : MonoBehaviour {
     private float turnSmoothVelocity;
     [SerializeField] private Transform _cam;
 
+    private void Start() {
+        if (controller == null) { controller = GameObject.FindObjectOfType<CharacterController>(); }
+        if (_cam == null) { _cam = Camera.main.transform; }
+    }
+
     void Update() {
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");

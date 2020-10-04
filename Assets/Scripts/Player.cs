@@ -12,7 +12,7 @@ public class Player : MonoBehaviour {
         get { return _currentWood;  } 
         set {
             _currentWood = value;
-            UpdateUI();
+            _uiManager.UpdateCarryMessage(this);
         }
     }
 
@@ -20,7 +20,7 @@ public class Player : MonoBehaviour {
         get { return _currentStone; }
         set {
             _currentStone = value;
-            UpdateUI();
+            _uiManager.UpdateCarryMessage(this);
         }
     }
 
@@ -34,11 +34,5 @@ public class Player : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         
-    }
-
-    private void UpdateUI() {
-        if (_uiManager == null) { return; }
-
-        _uiManager.CarryText = $"Carrying: {CurrentWood} wood, {CurrentStone} stone";
     }
 }

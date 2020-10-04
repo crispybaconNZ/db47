@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class MachineInteractive : Interactive {
@@ -17,23 +18,33 @@ public class MachineInteractive : Interactive {
     [SerializeField] private float machineSatiation;
     private bool _warningGiven = false;
 
+    private Demand _currentDemand = null;
+
     private void Start() {
         _uiManager = GameObject.FindObjectOfType<UIManager>();
         _uiManager.UpdateNeedle(machineSatiation);
     }
 
     public override void interact(Player player) {
-        if (player.CurrentWood > 0) {
+        if (player.CurrentWood > 0 || player.CurrentStone > 0) {
             _totalWoodReceived += player.CurrentWood;
             _totalStoneReceived += player.CurrentStone;
             machineSatiation += player.CurrentWood + player.CurrentStone;
             _uiManager.UpdateNeedle(machineSatiation);
             _uiManager.ShowMessage($"Feeding {player.CurrentWood} wood and {player.CurrentStone} stone to the machine!");
             _uiManager.ShowMessage($"Fed {_totalWoodReceived} wood and {_totalStoneReceived} stone to the machine so far!");
+
+            if (CheckDemandMet(player.CurrentWood, player.CurrentStone)) {
+                _currentDemand = null;
+                _uiManager.HideMachineDemand();
+            }
             player.CurrentWood = 0;
             player.CurrentStone = 0;
+            _uiManager.UpdateCarryMessage(player);
         }
     }
+
+    private bool CheckDemandMet(int wood, int stone) => wood >= _currentDemand.Wood && stone >= _currentDemand.Stone;
 
     private void Update() {
         machineSatiation -= _satiationDegradationRate * Time.deltaTime;
@@ -48,6 +59,12 @@ public class MachineInteractive : Interactive {
         } else if (machineSatiation >= DANGER_ZONE_BELOW && machineSatiation <= SLEEP_ZONE_ABOVE) {
             // clear the warning flag so that future warnings can be given            
             _warningGiven = false;
+        }
+
+        if (_currentDemand == null) {
+            _currentDemand = Demand.GenerateDemand();
+            _uiManager.SetMachineDemandText(_currentDemand.ToString());
+            Debug.Log($"Current demand: {_currentDemand}");
         }
     }
 }
