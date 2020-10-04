@@ -10,7 +10,7 @@ public class TreeInteractive : Interactive {
         _woodLeft--;
         player.CurrentWood += 1;
 
-        _uiManager.ShowMessage($"Wood left in this tree: {_woodLeft}");
+        // _uiManager.ShowMessage($"Wood left in this tree: {_woodLeft}");
 
         if (_woodLeft == 0) {
             Destroy(gameObject);

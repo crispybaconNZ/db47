@@ -25,24 +25,21 @@ public class MouseCapture : MonoBehaviour {
             ray = _camera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit)) {
                 if (hit.collider.name == "Ground") {
-                    // clicked on the ground
-                    // Vector3 pos = hit.point;
-                    // Instantiate(_markerPrefab, pos, Quaternion.identity);
+                    // clicked on the ground                    
                 } else if (hit.collider.GetComponentsInChildren<Interactive>().Length > 0) {
                     // there's an interact in here....
                     Interactive child = hit.collider.GetComponentsInChildren<Interactive>()[0];
-                    _uiManager.ShowMessage($"{_player.name} interacting with {child.name}");
+                    // _uiManager.ShowMessage($"{_player.name} interacting with {child.name}");
 
                     float distance = Vector3.Distance(transform.position, hit.point);
                     if (distance <= _interactionDistance) {                        
                         child.interact(_player);
+                        Debug.Log($"{_player.name} is interacting with {child.name} and distance {distance}");
                     } else {
-                        // Debug.Log($"Too far away to interact ({distance})");
+                        Debug.Log($"Too far away to interact with {child.name} ({distance})");
                     }
                 } else if (hit.collider.tag == "Player") {
                     Player player = hit.collider.gameObject.GetComponent<Player>();
-                    _uiManager.ShowMessage($"Player carrying {player.CurrentWood} wood");
-                    
                 } else {
                     // Debug.Log("Not an interactive");
                 }
