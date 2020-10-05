@@ -11,6 +11,8 @@ public class UIManager : MonoBehaviour {
     [SerializeField] private Text _messageText;
     [SerializeField] private GameObject _machineDemandPanel;
     [SerializeField] private Text _machineDemandText;
+    [SerializeField] private Text _gameOver;
+
     private float time_to_live = 0f;
     [SerializeField] private float _messageDisplayTime = 5f; // seconds
     [SerializeField] private Needle _needle;
@@ -18,21 +20,22 @@ public class UIManager : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
+        _messages = new Queue<string>();
         if (_messagePanel == null) { _messagePanel = GameObject.Find("MessagePanel"); }
         if (_messageText == null) { _messageText = GameObject.Find("MessageText").GetComponent<Text>(); }
         if (_needle == null) { _needle = GameObject.Find("Needle").GetComponent<Needle>(); }
         if (_carryText == null) { _carryText = GameObject.Find("CarryingText").GetComponent<Text>(); }
         if (_machineDemandPanel == null) { _machineDemandPanel = GameObject.Find("MachineDemand"); }
         if (_machineDemandText == null) { _machineDemandText = GameObject.Find("MachineDemandText").GetComponent<Text>(); }
+        if (_gameOver == null) { _gameOver = GameObject.Find("GameOverText").GetComponent<Text>(); }
 
         _carryText.text = "Carrying: nothing";
-        _messagePanel.SetActive(false);
-        
-        _messages = new Queue<string>();
+        _gameOver.text = "GAME OVER!";
+        _messagePanel.SetActive(false);        
     }
 
     // Update is called once per frame
-    void Update() {        
+    void Update() {
         if (time_to_live > 0f) {
             time_to_live -= Time.deltaTime;
             _messagePanel.SetActive(true);
@@ -56,6 +59,16 @@ public class UIManager : MonoBehaviour {
 
     public void ShowMessage(string text) => _messages.Enqueue(text);
 
+    public void ShowMessage(string text, bool priority) {
+        if (priority) {
+            _messages.Clear();
+            _messages.Enqueue(text);
+            time_to_live = 0f;
+        } else {
+            ShowMessage(text);
+        }
+    }
+
     public void Clear() => _messages.Clear();
 
     public void UpdateNeedle(float percent) {
@@ -73,4 +86,6 @@ public class UIManager : MonoBehaviour {
     }
 
     public void HideMachineDemand() => _machineDemandPanel.SetActive(false);
+
+    public void ShowGameOver() => _gameOver.gameObject.SetActive(true);
 }
