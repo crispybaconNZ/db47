@@ -8,23 +8,26 @@ public class GameManager : MonoBehaviour {
     private Player _player;
     private UIManager _uiManager;
     [SerializeField] private Explosion _explosion;
-
     
     void Awake()  {
         _machine = GameObject.FindObjectOfType<MachineInteractive>();
         _player = GameObject.FindObjectOfType<Player>();
         _uiManager = GameObject.FindObjectOfType<UIManager>();
-        if (_explosion == null) { _explosion = GameObject.FindObjectOfType<Explosion>(); }
     }
 
+    private void Start() {
+        
+    }
 
     // Update is called once per frame
     void Update() {
         if (_machine.HasExploded()) {
             _machine.ExplodeMachine();
             _uiManager.ShowGameOver();
+            _explosion.gameObject.SetActive(true);
+        }
 
-            while (!_explosion.IsDone()) ;
+        if (_explosion != null && _explosion.IsDone()) {
             _explosion.gameObject.SetActive(false);
             SceneManager.LoadScene("GameOver");
         }

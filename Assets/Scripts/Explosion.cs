@@ -5,23 +5,13 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 public class Explosion : MonoBehaviour {
-    [SerializeField] private Vector3 _scaleBy;
-    private bool _done = false;
+    private float countdown = 5f;
+    private bool done = false;
 
-    private void Start() {
-        if(_scaleBy == null) { _scaleBy = new Vector3(1f, 1f, 1f); }
-    }
+    public bool IsDone() => done;
 
-    void Detonate() {
-        gameObject.SetActive(true);
-    }
-
-    // Update is called once per frame
     void Update() {
-        transform.localScale += _scaleBy;
-
-        if (transform.localScale.x > 200) { _done = true; }
+        countdown -= Time.deltaTime;
+        done = (countdown <= 0f);
     }
-
-    public bool IsDone() => _done;
 }
