@@ -7,10 +7,12 @@ public class RockInteractive : Interactive {
     private UIManager _uiManager;
 
     public override void interact(Player player) {
-        _stoneLeft--;
-        player.CurrentStone += 1;
-
-        // _uiManager.ShowMessage($"Stone left in this rock: {_stoneLeft}");
+        if (player.CurrentStone < player.MaxStone) {
+            _stoneLeft--;
+            player.CurrentStone += 1;
+        } else {
+            _uiManager.ShowMessage($"You cannot carry more than {player.MaxStone} stone");
+        }
 
         if (_stoneLeft == 0) {
             Destroy(gameObject);

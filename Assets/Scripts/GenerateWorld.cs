@@ -5,24 +5,31 @@ using UnityEngine.Events;
 
 public class GenerateWorld : MonoBehaviour
 {
-    [SerializeField] private int numTrees = 200;
-    [SerializeField] private int numRocks = 200;
+    [SerializeField] private int numTrees = 2000;
+    [SerializeField] private int numRocks = 2000;
+    [SerializeField] private int numHouses = 20;
+
     [SerializeField] private GameObject _treePrefab;
     [SerializeField] private GameObject _rockPrefab;
+    [SerializeField] private GameObject _housePrefab;
 
     private Transform treeParent;
     private Transform rockParent;
+    private Transform houseParent;
 
     void Start() {
         treeParent = transform.Find("TreeCollection");
         rockParent = transform.Find("RockCollection");
+        houseParent = transform.Find("HouseCollection");
 
         if (_treePrefab == null) { _treePrefab = null; }
         if (_rockPrefab == null) { _rockPrefab = null; }
+        if (_housePrefab == null) { _housePrefab = null; }
 
-        Vector3 rockTranslation = new Vector3(0, 0.9f, 0);
+        Vector3 rockTranslation = new Vector3(0, 1f, 0);
         GeneratePrefabs("tree", _treePrefab, numTrees, treeParent);
         GeneratePrefabs("rock", _rockPrefab, numRocks, rockTranslation, rockParent, true);
+        GeneratePrefabs("house", _housePrefab, numHouses, houseParent);
     }
 
     private void GeneratePrefabs(string name, GameObject _prefab, int count, Vector3 _translate, Transform parent = null, bool rand_rotation=false) {

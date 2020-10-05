@@ -7,10 +7,12 @@ public class TreeInteractive : Interactive {
     private UIManager _uiManager;
 
     public override void interact(Player player) {
-        _woodLeft--;
-        player.CurrentWood += 1;
-
-        // _uiManager.ShowMessage($"Wood left in this tree: {_woodLeft}");
+        if (player.CurrentWood < player.MaxWood) {
+            _woodLeft--;
+            player.CurrentWood += 1;
+        } else {
+            _uiManager.ShowMessage($"You cannot carry more than {player.MaxWood} wood");
+        }
 
         if (_woodLeft == 0) {
             Destroy(gameObject);

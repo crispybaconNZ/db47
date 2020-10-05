@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
-    [SerializeField] private int _maxWood;
+    [SerializeField] private int _maxWood = 10;
+    [SerializeField] private int _maxStone = 5;
+
     private UIManager _uiManager;
     private int _currentWood;
     private int _currentStone;
+
+    public int MaxWood { get { return _maxWood; } }
+    public int MaxStone { get { return _maxStone;  } }
 
     public int CurrentWood {
         get { return _currentWood;  } 

@@ -11,10 +11,10 @@ public class MachineInteractive : Interactive {
     private const float SLEEP_ZONE_ABOVE = 93f; // machine may go to sleep
 
     [SerializeField] private float _satiationDegradationRate = 1;
+    [SerializeField] private float _woodSatiationMultiplier = 1;
+    [SerializeField] private float _stoneSatiationMultiplier = 1;
     [SerializeField] private float _timeBetweenDemands = 10;
 
-    private int _totalWoodReceived = 0;
-    private int _totalStoneReceived = 0;
     private UIManager _uiManager;
     [SerializeField] private float machineSatiation;
     private bool _warningGiven = false;
@@ -26,29 +26,40 @@ public class MachineInteractive : Interactive {
         _uiManager.UpdateNeedle(machineSatiation);
     }
 
-    public override void interact(Player player) {
-        if (player.CurrentWood > 0 || player.CurrentStone > 0) {
-            _totalWoodReceived += player.CurrentWood;
-            _totalStoneReceived += player.CurrentStone;
-            machineSatiation += player.CurrentWood + player.CurrentStone;
-            machineSatiation = Mathf.Clamp(machineSatiation, 0f, 100f);
-            _uiManager.UpdateNeedle(machineSatiation);
-            _uiManager.ShowMessage($"Feeding {player.CurrentWood} wood and {player.CurrentStone} stone to the machine!");
-            _uiManager.ShowMessage($"Fed {_totalWoodReceived} wood and {_totalStoneReceived} stone to the machine so far!");
+    public override void interact(Player player) {        
+        // player interacts with machine to drop resources
+        
+        if (_currentDemand == null) {
+            // no demand at the moment
+            _uiManager.ShowMessage("The Machine seems satiated ... for now ...");
+        } else {
+            // can't remove more than the player has nor more than the machine needs
+            int wood_to_remove = Mathf.Min(player.CurrentWood, _currentDemand.Wood);
+            int stone_to_remove = Mathf.Min(player.CurrentStone, _currentDemand.Stone);
 
-            _currentDemand.Wood -= player.CurrentWood;
-            _currentDemand.Stone -= player.CurrentStone;
+            // remove resources from the player
+            player.CurrentWood -= wood_to_remove;
+            player.CurrentStone -= stone_to_remove;
 
-            if (_currentDemand.DemandMet()) {
-                _currentDemand = null;
+            // and remove from the current demand
+            _currentDemand.Wood -= wood_to_remove;
+            _currentDemand.Stone -= stone_to_remove;
+
+            // satiate the machine
+            machineSatiation += (wood_to_remove * _woodSatiationMultiplier) + (stone_to_remove * _stoneSatiationMultiplier);
+
+            // update UI elements
+            _uiManager.UpdateCarryMessage(player);
+            if (CheckDemandMet()) {
+                // demand has been met
+                _uiManager.ShowMessage("The Machine's demands have been met, temporarily");
                 _uiManager.HideMachineDemand();
+                _currentDemand = null;
             } else {
+                // demand still not fulfilled
                 _uiManager.UpdateCarryMessage(player);
                 _uiManager.SetMachineDemandText(_currentDemand.ToString());
             }
-            player.CurrentWood = 0;
-            player.CurrentStone = 0;
-            _uiManager.UpdateCarryMessage(player);
         }
     }
 
