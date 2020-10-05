@@ -13,12 +13,14 @@ public class MachineInteractive : Interactive {
     [SerializeField] private float _satiationDegradationRate = 1;
     [SerializeField] private float _woodSatiationMultiplier = 1;
     [SerializeField] private float _stoneSatiationMultiplier = 1;
-    [SerializeField] private float _timeBetweenDemands = 10;
 
     private UIManager _uiManager;
     [SerializeField] private float machineSatiation;
     private bool _warningGiven = false;
     private Demand _currentDemand = null;
+
+    private const float MAX_DEMAND_DELAY = 20f;
+    private const float MIN_DEMAND_DELAY = 2f;
     private float timeTillNextDemand = 0f;
 
     private void Start() {
@@ -85,7 +87,7 @@ public class MachineInteractive : Interactive {
             if (timeTillNextDemand <= 0) {
                 _currentDemand = Demand.GenerateDemand();
                 _uiManager.SetMachineDemandText(_currentDemand.ToString());
-                timeTillNextDemand = _timeBetweenDemands;
+                timeTillNextDemand = Random.Range(MIN_DEMAND_DELAY, MAX_DEMAND_DELAY);
             }
         }
     }

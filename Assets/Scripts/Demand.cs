@@ -7,6 +7,12 @@ public class Demand {
     private int _wood;
     private int _stone;
 
+    private const int MAX_WOOD_DEMAND = 20;
+    private const int MIN_WOOD_DEMAND = 10;
+    private const int MAX_STONE_DEMAND = 10;
+    private const int MIN_STONE_DEMAND = 5;
+
+
     public int Wood { get { return _wood; } set { _wood = Mathf.Clamp(value, 0, int.MaxValue); } }
     public int Stone { get { return _stone; } set { _stone = Mathf.Clamp(value, 0, int.MaxValue); } }
 
@@ -32,10 +38,12 @@ public class Demand {
         return s;
     }
 
-    public static Demand GenerateDemand() {
+    public static Demand GenerateDemand(Player player=null) {
         Demand d = new Demand();
-        d._wood = Random.Range(5, 20);
-        d._stone = Random.Range(5, 20);
+        int multiplier = player == null ? 1 : player.Level;
+
+        d._wood = Random.Range(MIN_WOOD_DEMAND * multiplier, MAX_WOOD_DEMAND * multiplier);
+        d._stone = Random.Range(MIN_STONE_DEMAND * multiplier, MAX_STONE_DEMAND * multiplier);
 
         return d;
     }

@@ -290,7 +290,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 20865403}
-  m_LocalRotation: {x: 0.21698047, y: -0.3719905, z: 0.08988895, w: 0.8980326}
+  m_LocalRotation: {x: 0.21698019, y: -0.3719906, z: 0.089888856, w: 0.89803267}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -11673,7 +11673,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df12c42dc0810e34db7df2d3b5c7a562, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxWood: 10
+  _maxWood: 15
   _maxStone: 5
 --- !u!1 &1484770266
 GameObject:

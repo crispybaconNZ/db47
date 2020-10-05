@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
     [SerializeField] private int _maxWood = 10;
     [SerializeField] private int _maxStone = 5;
+    private int _level;
 
     private UIManager _uiManager;
     private int _currentWood;
@@ -12,6 +14,7 @@ public class Player : MonoBehaviour {
 
     public int MaxWood { get { return _maxWood; } }
     public int MaxStone { get { return _maxStone;  } }
+    public int Level { get { return _level; } }
 
     public int CurrentWood {
         get { return _currentWood;  } 
@@ -39,5 +42,9 @@ public class Player : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         
+    }
+
+    public void LevelUp() {
+        _level++;
     }
 }
