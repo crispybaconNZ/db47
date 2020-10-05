@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.UIElements;
 using UnityEngine;
 
 public class Demand {
     private int _wood;
     private int _stone;
 
-    public int Wood { get; set; }
-    public int Stone { get; set; }
+    public int Wood { get { return _wood; } set { _wood = Mathf.Clamp(value, 0, int.MaxValue); } }
+    public int Stone { get { return _stone; } set { _stone = Mathf.Clamp(value, 0, int.MaxValue); } }
 
     public Demand() {
         _wood = 0;
@@ -33,12 +34,11 @@ public class Demand {
 
     public static Demand GenerateDemand() {
         Demand d = new Demand();
-        while (d.Wood + d.Stone == 0) {
-            d.Wood = Random.Range(0, 10);
-            d.Stone = Random.Range(0, 10);
-            Debug.Log($"{d._wood} wood, {d._stone} stone");
-        }
+        d._wood = Random.Range(5, 20);
+        d._stone = Random.Range(5, 20);
 
         return d;
     }
+
+    public bool DemandMet() => _wood + _stone == 0;
 }
