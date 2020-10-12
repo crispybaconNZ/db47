@@ -346,11 +346,11 @@ MonoBehaviour:
     mysteries.\r\n\r\nWhat is known is that every twenty years, the Machine awakes
     and summons someone from one of the nearby villages to feed it with resources
     from the woods. \r\n\r\nAnd this year, it's your turn...\r\n\r\nUse the WASD
-    keys to move around the woods. \",\" and \".\" rotate the camera. Click on items
-    to interact with them.\r\n\r\nAn arrow floating above your head always points
-    to the Machine.\r\n\r\nThe Machine's gauge at the bottom-right of the screen
-    lets you know how well satiated the Machine ease. Be wary of letting the Machine's
-    satiation get too low, for dire consequences await..."
+    keys to move around the woods. \",\"/\".\" or \"Q\"/\"E\" rotate the camera.
+    Click on items to interact with them.\r\n\r\nAn arrow floating above your head
+    always points to the Machine.\r\n\r\nThe Machine's gauge at the bottom-right
+    of the screen lets you know how well satiated the Machine ease. Be wary of letting
+    the Machine's satiation get too low, for dire consequences await..."
 --- !u!222 &574700106
 CanvasRenderer:
   m_ObjectHideFlags: 0

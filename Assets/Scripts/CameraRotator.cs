@@ -12,9 +12,9 @@ public class CameraRotator : MonoBehaviour {
     }
 
     void Update() {
-        if (Input.GetKey(KeyCode.Comma)) {
+        if (Input.GetKey(KeyCode.Comma) || Input.GetKey(KeyCode.Q)) {
             _freeLook.m_XAxis.Value += _rotateSpeed;
-        } else if (Input.GetKey(KeyCode.Period)) {
+        } else if (Input.GetKey(KeyCode.Period) || Input.GetKey(KeyCode.E)) {
             _freeLook.m_XAxis.Value -= _rotateSpeed;
         }
     }
